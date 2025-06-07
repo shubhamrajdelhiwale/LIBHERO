@@ -46,48 +46,28 @@
         </nav>
 
         <!-- Login Page -->
-        <div id="loginPage" class="auth-page">
-            <div class="auth-card">
-                <div class="auth-header">
-                    <div class="logo-section">
-                        <div class="logo">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <h1>LIBHERO</h1>
-                    </div>
-                    <h2>Welcome Back</h2>
-                    <p>Sign in to your account</p>
-                </div>
-                
-                <form id="loginForm" class="auth-form">
-                    <div class="form-group">
-                        <label for="loginEmail">Email</label>
-                        <input type="email" id="loginEmail" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword">Password</label>
-                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
-                    </div>
-                    <button type="submit" class="auth-btn">
-                        <span id="loginBtnText">Sign In</span>
-                    </button>
-                </form>
-                
-                <div class="demo-accounts">
-                    <h3>Demo Accounts:</h3>
-                    <div class="demo-list">
-                        <p>📚 Librarian: librarian@libhero.com</p>
-                        <p>👨‍🏫 Faculty: faculty@libhero.com</p>
-                        <p>🎓 Student: student@libhero.com</p>
-                        <p class="demo-note">Password: any</p>
-                    </div>
-                </div>
-                
-                <div class="auth-switch">
-                    <p>Don't have an account? <button onclick="showSignup()" class="switch-btn">Sign up</button></p>
-                </div>
-            </div>
-        </div>
+<head>
+  <title>Login/Signup</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script defer src="auth.js"></script>
+</head>
+<body>
+  <h2>Signup</h2>
+  <input type="email" id="signupEmail" placeholder="Email">
+  <input type="password" id="signupPassword" placeholder="Password">
+  <button onclick="signup()">Signup</button>
+
+  <h2>Login</h2>
+  <input type="email" id="loginEmail" placeholder="Email">
+  <input type="password" id="loginPassword" placeholder="Password">
+  <button onclick="login()">Login</button>
+
+  <br><br>
+  <button onclick="logout()">Logout</button>
+
+  <p id="status"></p>
+</body>
 
         <!-- Signup Page -->
         <div id="signupPage" class="auth-page hidden">
