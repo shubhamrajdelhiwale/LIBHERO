@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIBHERO - Smart Library Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app" class="min-h-screen bg-gradient">
+        <!-- Navigation (hidden initially) -->
+        <nav id="navigation" class="navbar hidden">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <div class="logo">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h1>LIBHERO</h1>
+                        <p>Smart Library Management</p>
+                    </div>
+                </div>
+                
+                <div class="nav-links">
+                    <button class="nav-btn active" data-page="dashboard">Dashboard</button>
+                    <button class="nav-btn" data-page="books">Books</button>
+                    <button class="nav-btn" data-page="members" id="membersBtn">Members</button>
+                    <button class="nav-btn" data-page="reports" id="reportsBtn">Reports</button>
+                </div>
+                
+                <div class="user-section">
+                    <div class="user-info">
+                        <span class="user-emoji" id="userEmoji">👤</span>
+                        <div class="user-details">
+                            <p class="user-name" id="userName">User</p>
+                            <p class="user-role" id="userRole">student</p>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Login Page -->
+        <div id="loginPage" class="auth-page">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="logo-section">
+                        <div class="logo">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h1>LIBHERO</h1>
+                    </div>
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to your account</p>
+                </div>
+                
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="auth-btn">
+                        <span id="loginBtnText">Sign In</span>
+                    </button>
+                </form>
+                
+                <div class="demo-accounts">
+                    <h3>Demo Accounts:</h3>
+                    <div class="demo-list">
+                        <p>📚 Librarian: librarian@libhero.com</p>
+                        <p>👨‍🏫 Faculty: faculty@libhero.com</p>
+                        <p>🎓 Student: student@libhero.com</p>
+                        <p class="demo-note">Password: any</p>
+                    </div>
+                </div>
+                
+                <div class="auth-switch">
+                    <p>Don't have an account? <button onclick="showSignup()" class="switch-btn">Sign up</button></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Page -->
+        <div id="signupPage" class="auth-page hidden">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="logo-section">
+                        <div class="logo">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h1>LIBHERO</h1>
+                    </div>
+                    <h2>Create Account</h2>
+                    <p>Join our library community</p>
+                </div>
+                
+                <form id="signupForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userRole">Role</label>
+                        <select id="userRoleSelect" required>
+                            <option value="">Select your role</option>
+                            <option value="student">Student</option>
+                            <option value="faculty">Faculty</option>
+                            <option value="librarian">Librarian</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="auth-btn">
+                        <span id="signupBtnText">Create Account</span>
+                    </button>
+                </form>
+                
+                <div class="auth-switch">
+                    <p>Already have an account? <button onclick="showLogin()" class="switch-btn">Sign in</button></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <main id="mainContent" class="main-content hidden">
+            <!-- Dashboard -->
+            <div id="dashboardPage" class="page active">
+                <div class="page-header">
+                    <h1>📊 Dashboard</h1>
+                    <p>Welcome to your library management system</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-content">
+                            <h3 id="totalBooks">1,247</h3>
+                            <p>Total Books</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <h3 id="totalMembers">328</h3>
+                            <p>Active Members</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📖</div>
+                        <div class="stat-content">
+                            <h3 id="borrowedBooks">89</h3>
+                            <p>Books Borrowed</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-content">
+                            <h3 id="overdueBooks">12</h3>
+                            <p>Overdue Books</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="activity-section">
+                        <h2>Recent Activity</h2>
+                        <div class="activity-list" id="activityList">
+                            <div class="activity-item">
+                                <div class="activity-icon">📚</div>
+                                <div class="activity-content">
+                                    <p><strong>John Doe</strong> borrowed "JavaScript: The Good Parts"</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">↩️</div>
+                                <div class="activity-content">
+                                    <p><strong>Jane Smith</strong> returned "Clean Code"</p>
+                                    <span class="activity-time">4 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">👤</div>
+                                <div class="activity-content">
+                                    <p><strong>New member</strong> Mike Johnson registered</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <h2>Quick Actions</h2>
+                        <div class="action-buttons">
+                            <button class="action-btn" onclick="navigateTo('books')">
+                                <i class="fas fa-plus"></i>
+                                Add New Book
+                            </button>
+                            <button class="action-btn" onclick="navigateTo('members')">
+                                <i class="fas fa-user-plus"></i>
+                                Add Member
+                            </button>
+                            <button class="action-btn" onclick="navigateTo('books')">
+                                <i class="fas fa-search"></i>
+                                Search Books
+                            </button>
+                            <button class="action-btn" onclick="navigateTo('reports')">
+                                <i class="fas fa-chart-bar"></i>
+                                View Reports
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Books Page -->
+            <div id="booksPage" class="page">
+                <div class="page-header">
+                    <h1>📚 Book Management</h1>
+                    <button class="primary-btn" onclick="showAddBookModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Book
+                    </button>
+                </div>
+                
+                <div class="filters-section">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="bookSearch" placeholder="Search books..." onkeyup="filterBooks()">
+                    </div>
+                    <select id="categoryFilter" onchange="filterBooks()">
+                        <option value="">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="science">Science</option>
+                        <option value="technology">Technology</option>
+                        <option value="history">History</option>
+                    </select>
+                </div>
+                
+                <div class="books-grid" id="booksGrid">
+                    <!-- Books will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Members Page -->
+            <div id="membersPage" class="page">
+                <div class="page-header">
+                    <h1>👥 Member Management</h1>
+                    <button class="primary-btn" onclick="showAddMemberModal()">
+                        <i class="fas fa-user-plus"></i>
+                        Add New Member
+                    </button>
+                </div>
+                
+                <div class="members-table-container">
+                    <table class="members-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Books Borrowed</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membersTableBody">
+                            <!-- Members will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Page -->
+            <div id="reportsPage" class="page">
+                <div class="page-header">
+                    <h1>📊 Reports & Analytics</h1>
+                    <select id="reportPeriod" onchange="updateReports()">
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="year">This Year</option>
+                    </select>
+                </div>
+                
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>📈 Borrowing Trends</h3>
+                        <div class="chart-placeholder">
+                            <p>Books borrowed over time</p>
+                            <div class="fake-chart">
+                                <div class="chart-bar" style="height: 60%"></div>
+                                <div class="chart-bar" style="height: 80%"></div>
+                                <div class="chart-bar" style="height: 45%"></div>
+                                <div class="chart-bar" style="height: 90%"></div>
+                                <div class="chart-bar" style="height: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h3>📚 Popular Categories</h3>
+                        <div class="category-stats">
+                            <div class="category-item">
+                                <span>Technology</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 85%"></div>
+                                </div>
+                                <span>85%</span>
+                            </div>
+                            <div class="category-item">
+                                <span>Fiction</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 72%"></div>
+                                </div>
+                                <span>72%</span>
+                            </div>
+                            <div class="category-item">
+                                <span>Science</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 68%"></div>
+                                </div>
+                                <span>68%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Add Book Modal -->
+        <div id="addBookModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add New Book</h2>
+                    <button class="close-btn" onclick="closeModal('addBookModal')">&times;</button>
+                </div>
+                <form id="addBookForm" class="modal-form">
+                    <div class="form-group">
+                        <label for="bookTitle">Title</label>
+                        <input type="text" id="bookTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookAuthor">Author</label>
+                        <input type="text" id="bookAuthor" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookCategory">Category</label>
+                        <select id="bookCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="fiction">Fiction</option>
+                            <option value="science">Science</option>
+                            <option value="technology">Technology</option>
+                            <option value="history">History</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookISBN">ISBN</label>
+                        <input type="text" id="bookISBN" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" onclick="closeModal('addBookModal')" class="cancel-btn">Cancel</button>
+                        <button type="submit" class="primary-btn">Add Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add Member Modal -->
+        <div id="addMemberModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add New Member</h2>
+                    <button class="close-btn" onclick="closeModal('addMemberModal')">&times;</button>
+                </div>
+                <form id="addMemberForm" class="modal-form">
+                    <div class="form-group">
+                        <label for="memberName">Full Name</label>
+                        <input type="text" id="memberName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberEmail">Email</label>
+                        <input type="email" id="memberEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberRole">Role</label>
+                        <select id="memberRole" required>
+                            <option value="">Select Role</option>
+                            <option value="student">Student</option>
+                            <option value="faculty">Faculty</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" onclick="closeModal('addMemberModal')" class="cancel-btn">Cancel</button>
+                        <button type="submit" class="primary-btn">Add Member</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
