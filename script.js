@@ -586,3 +586,51 @@ window.borrowBook = borrowBook;
 window.editMember = editMember;
 window.deleteMember = deleteMember;
 window.updateReports = updateReports;
+
+
+
+
+
+// Replace the below config with YOUR OWN from Firebase console
+const firebaseConfig = {
+  apiKey: "AIzaSyDurbk7oNPTC7X7-nRcx6mF92y1qp_TxiA",
+  authDomain: "libhero-27994.firebaseapp.com",
+  projectId: "libhero-27994",
+  appId: "1:1089197549040:web:8fd919d0c119d2ba6d6935",
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+function signup() {
+  const email = document.getElementById("signupEmail").value;
+  const password = document.getElementById("signupPassword").value;
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(user => {
+      document.getElementById("status").innerText = "Signup successful!";
+    })
+    .catch(error => {
+      document.getElementById("status").innerText = error.message;
+    });
+}
+
+function login() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then(user => {
+      document.getElementById("status").innerText = "Login successful!";
+    })
+    .catch(error => {
+      document.getElementById("status").innerText = error.message;
+    });
+}
+
+function logout() {
+  auth.signOut()
+    .then(() => {
+      document.getElementById("status").innerText = "Logged out";
+    });
+}
